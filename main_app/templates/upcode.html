@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Dashboard v3</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard v3</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+
+                    <!-- /.card -->
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                代码上传
+                            </h3>
+                            <div class="card-tools">
+                                <a href="#" class="btn btn-tool btn-sm">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="#" class="btn btn-tool btn-sm">
+                                    <i class="fa fa-bars"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <form method="post" enctype="multipart/form-data">
+                                <div class="custom-file" style="width: 50%; margin: 10px; float:left;">
+                                    <input type="file" class="custom-file-input" id="exampleInputFile" accept=".zip" name="codefile">
+                                    <label class="custom-file-label" for="exampleInputFile" id="inputTxt">Choose
+                                        file</label>
+
+                                </div>
+                                <div style="float:left;margin: 10px;">
+                                    <input type="submit" value="上传" class="btn btn-info">
+                                </div>
+                            </form>
+                            <div class="alert alert-warning alert-dismissible" style="float: left; margin: 10px;height: 37px;line-height: 1;">{{ err_msg }}</div>
+                        </div>
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+    <script>
+        var up_file = document.getElementById("exampleInputFile");
+        var input_txt = document.getElementById("inputTxt");
+        up_file.onchange = function (e) {
+            var name = e.currentTarget.files[0].name;
+            var fileExt = name.substring(name.lastIndexOf(".")).toLowerCase();
+            input_txt.innerText = name;
+
+            if (!checkFileExt(fileExt)) {
+                alert("您上传的文件不是zip压缩文件,请重新上传！");
+                up_file.value = "";
+                input_txt.innerText = "";
+                return;
+            }
+        }
+
+        function checkFileExt(ext) {
+            if (!ext.match(/.zip/i)) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+{% endblock %}

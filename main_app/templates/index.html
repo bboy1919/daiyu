@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard v3</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v3</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header no-border">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title">Online Store Visitors</h3>
+                  <a href="javascript:void(0);">View Report</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="d-flex">
+                  <p class="d-flex flex-column">
+                    <span class="text-bold text-lg">820</span>
+                    <span>Visitors Over Time</span>
+                  </p>
+                  <p class="ml-auto d-flex flex-column text-right">
+                    <span class="text-success">
+                      <i class="fa fa-arrow-up"></i> 12.5%
+                    </span>
+                    <span class="text-muted">Since last week</span>
+                  </p>
+                </div>
+                <!-- /.d-flex -->
+
+                <div class="position-relative mb-4">
+                  <canvas id="v-chart" height="100"></canvas>
+                </div>
+
+                <div class="d-flex flex-row justify-content-end">
+                  <span class="mr-2">
+                    <i class="fa fa-square text-primary"></i> This Week
+                  </span>
+
+                  <span>
+                    <i class="fa fa-square text-gray"></i> Last Week
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- /.card -->
+
+            <div class="card">
+              <div class="card-header no-border">
+                <h3 class="card-title">
+                    代码统计列表
+                </h3>
+                <div class="card-tools">
+                  <a href="#" class="btn btn-tool btn-sm">
+                    <i class="fa fa-download"></i>
+                  </a>
+                  <a href="#" class="btn btn-tool btn-sm">
+                    <i class="fa fa-bars"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <table class="table table-striped table-valign-middle">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>昵称</th>
+                    <th>查看个人提交记录</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for row in data_list %}
+                          <tr>
+                            <td>
+                              <img src="/static/img/default-150x150.png" alt="{{row.nickname}}" class="img-circle img-size-32 mr-2">
+                              {{row.id}}
+                            </td>
+                            <td>{{row.user}}</td>
+                            <td>
+                              {{row.nickname}}
+                            </td>
+                            <td>
+                              <a href="/detail/{{row.id}}" class="text-muted">
+                                <i class="fa fa-search"></i><span style="padding-left: 8px">查看明细</span>
+                              </a>
+                            </td>
+                          </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+    <script src="/static/js/plugins/chart.js"></script>
+    <script>
+         var $vChart = document.getElementById("v-chart")
+         var myChart = new Chart($vChart, {
+            type: 'bar',
+            data: {
+                labels: {{ x|tojson }},
+                datasets: [{
+                    label: '# of Votes',
+                    data: {{ y }},
+                    backgroundColor: '#007bff',
+                    borderWidth: 1
+                }]
+            },
+            options: {}
+        });
+    </script>
+{% endblock %}
